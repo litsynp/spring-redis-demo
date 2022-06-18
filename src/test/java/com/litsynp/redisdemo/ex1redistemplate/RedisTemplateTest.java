@@ -1,8 +1,7 @@
-package com.litsynp.redisdemo.redis;
+package com.litsynp.redisdemo.ex1redistemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.litsynp.redisdemo.dto.MemberCache;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

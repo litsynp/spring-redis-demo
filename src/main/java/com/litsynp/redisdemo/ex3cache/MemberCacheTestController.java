@@ -1,6 +1,6 @@
-package com.litsynp.redisdemo.api;
+package com.litsynp.redisdemo.ex3cache;
 
-import com.litsynp.redisdemo.dto.MemberCache;
+import com.litsynp.redisdemo.ex1redistemplate.MemberCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,9 +1,9 @@
-package com.litsynp.redisdemo.redis;
+package com.litsynp.redisdemo.ex2redisrepo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.litsynp.redisdemo.domain.MemberRedisRepository;
-import com.litsynp.redisdemo.dto.RedisMember;
+import com.litsynp.redisdemo.ex2redisrepo.MemberRedisRepository;
+import com.litsynp.redisdemo.ex2redisrepo.RedisMember;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
