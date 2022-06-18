@@ -1,4 +1,4 @@
-package com.litsynp.redisdemo.domain;
+package com.litsynp.redisdemo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,22 +13,23 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member implements Serializable {
+public class MemberCache implements Serializable {
 
     @Id
     private String id;
     private String name;
     private Integer age;
+
     private LocalDateTime createdAt;
 
-    public Member(String id, String name, Integer age) {
+    public MemberCache(String id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.createdAt = LocalDateTime.now();
     }
 
-    public Member(String name, Integer age) {
+    public MemberCache(String name, Integer age) {
         this.name = name;
         this.age = age;
         this.createdAt = LocalDateTime.now();

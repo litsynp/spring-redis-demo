@@ -2,7 +2,7 @@ package com.litsynp.redisdemo.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.litsynp.redisdemo.domain.Member;
+import com.litsynp.redisdemo.dto.MemberCache;
 import com.litsynp.redisdemo.domain.MemberRedisRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -19,14 +19,14 @@ class RedisRepositoryTest {
     @Test
     @DisplayName("Test member Redis repository")
     void memberRepositoryTest() {
-        Member member = new Member("Test", 20);
+        MemberCache memberCache = new MemberCache("Test", 20);
 
         // Save member in Redis
         // Member ID is auto-generated in form "member:XXX"
-        memberRedisRepository.save(member);
+        memberRedisRepository.save(memberCache);
 
         // Get member from Redis
-        Optional<Member> memberOptional = memberRedisRepository.findById(member.getId());
+        Optional<MemberCache> memberOptional = memberRedisRepository.findById(memberCache.getId());
         assertThat(memberOptional).isNotNull();
         System.out.println("member ID = " + memberOptional.get().getId());
 
@@ -35,6 +35,6 @@ class RedisRepositoryTest {
         System.out.println("memberCount = " + memberCount);
 
         // Delete member
-        memberRedisRepository.delete(member);
+        memberRedisRepository.delete(memberCache);
     }
 }

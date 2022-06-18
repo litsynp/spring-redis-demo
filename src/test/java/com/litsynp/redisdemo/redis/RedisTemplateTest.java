@@ -2,7 +2,7 @@ package com.litsynp.redisdemo.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.litsynp.redisdemo.domain.Member;
+import com.litsynp.redisdemo.dto.MemberCache;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.ValueOperations;
 class RedisTemplateTest {
 
     @Autowired
-    private RedisTemplate<String, Member> memberRedisTemplate;
+    private RedisTemplate<String, MemberCache> memberRedisTemplate;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -45,14 +45,14 @@ class RedisTemplateTest {
     @DisplayName("Test string:object")
     void objectValue() {
         // given
-        ValueOperations<String, Member> valueOperations = memberRedisTemplate.opsForValue();
-        Member member = new Member("1", "Test", 20);
-        String key = "member:" + member.getId();
-        valueOperations.set(key, member);
+        ValueOperations<String, MemberCache> valueOperations = memberRedisTemplate.opsForValue();
+        MemberCache memberCache = new MemberCache("1", "Test", 20);
+        String key = "member:" + memberCache.getId();
+        valueOperations.set(key, memberCache);
 
-        Member memberRetrieved = valueOperations.get(key);
-        System.out.println("member.id = " + memberRetrieved.getId());
+        MemberCache memberCacheRetrieved = valueOperations.get(key);
+        System.out.println("member.id = " + memberCacheRetrieved.getId());
 
-        assertThat(memberRetrieved.getId()).isEqualTo(member.getId());
+        assertThat(memberCacheRetrieved.getId()).isEqualTo(memberCache.getId());
     }
 }
