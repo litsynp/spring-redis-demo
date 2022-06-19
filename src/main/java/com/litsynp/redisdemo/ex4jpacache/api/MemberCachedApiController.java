@@ -24,16 +24,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Normal version of member API.
+ * Cached version of member API.
  */
 @RestController
-@RequestMapping("/v4/members")
+@RequestMapping("/v5/members")
 @Slf4j
-public class MemberApiController {
+public class MemberCachedApiController {
 
     private final MemberService memberService;
 
-    public MemberApiController(@Qualifier("memberService") MemberService memberService) {
+    public MemberCachedApiController(@Qualifier("memberCacheService") MemberService memberService) {
         this.memberService = memberService;
     }
 

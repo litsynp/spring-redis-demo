@@ -6,12 +6,14 @@ import com.litsynp.redisdemo.ex4jpacache.repository.MemberRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Qualifier("memberService")
 @Slf4j
 public class MemberServiceImpl implements MemberService {
 
