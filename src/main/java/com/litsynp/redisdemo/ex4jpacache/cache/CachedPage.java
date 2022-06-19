@@ -1,4 +1,4 @@
-package com.litsynp.redisdemo.ex4jpacache;
+package com.litsynp.redisdemo.ex4jpacache.cache;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

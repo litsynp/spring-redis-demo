@@ -1,6 +1,6 @@
 package com.litsynp.redisdemo.ex4jpacache.service;
 
-import com.litsynp.redisdemo.ex4jpacache.CachedPage;
+import com.litsynp.redisdemo.ex4jpacache.cache.CachedPage;
 import com.litsynp.redisdemo.ex4jpacache.domain.Member;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
