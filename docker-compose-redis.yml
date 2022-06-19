@@ -6,10 +6,10 @@ services:
     ports:
       - "6379:6379"
     command: >
+      --include /usr/local/etc/redis/redis.conf
       --requirepass testpass
       --port 6379
+    environment:
+      - REDIS_PASSWORD=testpass
     volumes:
-      - cache_vol:/data
-
-volumes:
-  cache_vol:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
