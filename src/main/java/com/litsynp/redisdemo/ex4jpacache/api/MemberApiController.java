@@ -1,12 +1,13 @@
 package com.litsynp.redisdemo.ex4jpacache.api;
 
 import com.litsynp.redisdemo.ex4jpacache.domain.Member;
-import com.litsynp.redisdemo.ex4jpacache.service.MemberService;
 import com.litsynp.redisdemo.ex4jpacache.dto.MemberCreateRequestDto;
 import com.litsynp.redisdemo.ex4jpacache.dto.MemberResponseDto;
 import com.litsynp.redisdemo.ex4jpacache.dto.MemberUpdateRequestDto;
+import com.litsynp.redisdemo.ex4jpacache.service.MemberCacheService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -25,9 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v4/members")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberApiController {
 
-    private final MemberService memberService;
+    private final MemberCacheService memberService;
 
     @PostMapping
     public ResponseEntity<MemberResponseDto> create(@RequestBody MemberCreateRequestDto dto) {
