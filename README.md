@@ -2,7 +2,7 @@
 
 ## About
 
-This project is created to introduce some different methods and examples to access [Redis](https://redis.io/) from Spring applications.
+This project is created to introduce some different methods and examples to access [Redis](https://redis.io/) from Spring applications. This also introduces a way to improve your API with Redis as a cache server.
 
 The project uses 3 methods to access Redis:
 
@@ -72,7 +72,7 @@ $ ./stop-redis-server.sh
 
 ## Shell Scripts and Docker
 
-- `docker-compose-redis.yml`: Defines Redis service. Sets The redis password and port and registers `redis.conf` via volume.
+- `docker-compose-redis.yml`: Defines Redis service. Sets The Redis password and port (6379) and registers `redis.conf` via volume.
 - `redis.conf`: Configurations for Redis service. Turns off [RDB and AOF](https://stackoverflow.com/questions/28785383/how-to-disable-persistence-with-redis) features. Disables [potentially dangerous commands](https://programmer.group/redis-disable-dangerous-command.html). Sets max client to 50,000.
 - `run-redis-server.sh`: A shell script to stop a running Redis service and builds & runs a new one.
 - `run-redis-cli.sh`: A shell script to allow access to Redis via Redis CLI.
@@ -83,22 +83,24 @@ $ ./stop-redis-server.sh
 
 - `resources/application.yml`: Spring Boot configurations. Configures Redis with host, port and password, and JPA with datasource URL, username and password. Enables H2 console via `/h2-console`.
 
+The project includes 4 (5, technically) examples to show ways to play with Redis. 
+
 - `com.litsynp.redisdemo`
     - `config`: Holds configurations, especially for Redis.
         - `ConfigurationPropertiesConfig`: Enables configuration properties.
-        - `ObjectMapperConfig`: Provides customized object mapper for JSON.
-        - `RedisCacheConfig`: Configures caching with Redis. Basically it creates a `CacheManager`to use in caching member. This is used in `com.litsynp.redisdemo.ex4jpacache`. Note that the cache manager registers a customized `ObjectMapper` as its value serializer. The customized `ObjectMapper` registers `JavaTimeModule` provided by `com.fasterxml.jackson.datatype:jackson-datatype-jsr310` for serialization and deserialization of `LocalDateTime` present in member entity. The entry TTL is set to 3 minutes.
+        - `ObjectMapperConfig`: Provides customized object mapper for JSON to properly serialize and deserialize `LocalDateTime`. More on this [here](https://www.baeldung.com/jackson-serialize-dates).
+        - `RedisCacheConfig`: Configures caching with Redis. Basically it creates a `CacheManager`to use in caching member. This is used in `com.litsynp.redisdemo.ex4jpacache`. Note that the cache manager registers a customized `ObjectMapper` (similar to that in `ObjectMapperConfig`) as its value serializer. The customized `ObjectMapper` registers `JavaTimeModule` provided by `com.fasterxml.jackson.datatype:jackson-datatype-jsr310` for serialization and deserialization of `LocalDateTime` present in member entity. The entry TTL is set to 3 minutes.
         - `RedisConfig`: Configures `RedisConnectionFactory` and `RedisTemplate` beans.
     - `ex1redistemplate`: Example of `RedisTemplate` and `opsForValue`.
         - `MemberCache`: An example class to be instanced and cached. Currently, this is only used in test codes.
         - `RedisController`: Uses `StringRedisTemplate` to put String key and String value to Redis.
-    - `ex2redisrepo`: Uses CrudRepository for caching member. Currently, this is only used in test codes.
+    - `ex2redisrepo`: Uses `CrudRepository` for caching member. Currently, this is only used in test codes.
         - `MemberRedisRepository`: The Redis repository for `RedisMember`.
         - `RedisMember`: Example member class to be cached. Annotated with `@RedisHash(value = "member")` to be saved in "member:key" format.
     - `ex3cache`: An example of how caching with Redis can be done so simply with **cache
       abstraction**.
         - `MemberCacheTestController`: Note that there is `Thread.sleep(1500)` in the **GET** API. The API is annotated with `@Cacheable(value = "member", cacheManager = "cacheManager")`, caching the response of the API. It gets faster the second time you request the same API.
-    - `ex4jpacache`: This example shows how Spring Data JPA and Redis can work together to bring faster responses from APIs, with **cache abstraction**.
+    - `ex4jpacache`: This example shows how Spring Data JPA and Redis can work together to bring faster responses from APIs, with [cache abstraction](https://www.baeldung.com/spring-cache-tutorial).
         - `api`: API controllers for comparison.
             - `MemberApiController`: Member API controller, **not cached**.
             - `MemberCachedApiController`: Member API controller, **cached with Redis**.
@@ -168,6 +170,6 @@ $ ./stop-redis-server.sh
   204 No Content
   ```
 
-- `/v4/members` (`MemberApiController`): Simple member API using only Spring Data JPA. Not cached. Provides CRUD. API and implementation details on the [source code](https://github.com/litsynp/spring-redis-demo/blob/main/src/main/java/com/litsynp/redisdemo/ex4jpacache/api/MemberApiController.java).
+- `/v4/members` (`MemberApiController`): Simple member API using only Spring Data JPA. **Not cached**. Provides CRUD. API and implementation details on the [source code](https://github.com/litsynp/spring-redis-demo/blob/main/src/main/java/com/litsynp/redisdemo/ex4jpacache/api/MemberApiController.java).
 
-- `/v4/members` (`MemberCachedApiController`): Simple member API using Spring Data JPA and Redis for cache. **Cached**. Provides CRUD. API and implementation details on the [source code](https://github.com/litsynp/spring-redis-demo/blob/main/src/main/java/com/litsynp/redisdemo/ex4jpacache/api/MemberCachedApiController.java).
+- `/v5/members` (`MemberCachedApiController`): Simple member API using both Spring Data JPA and Redis for cache. **Cached**. Provides CRUD. API and implementation details on the [source code](https://github.com/litsynp/spring-redis-demo/blob/main/src/main/java/com/litsynp/redisdemo/ex4jpacache/api/MemberCachedApiController.java).
